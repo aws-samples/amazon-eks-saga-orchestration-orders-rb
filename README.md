@@ -6,6 +6,7 @@ This project implements the `Orders Rollback` microservice that participates in 
   - [Usage](#usage)
     - [Build](#build)
     - [Deploy](#deploy)
+    - [Clean-up](#clean-up)
   - [Inputs and outputs](#inputs-and-outputs)
 
 ## Usage
@@ -15,7 +16,7 @@ This project implements the `Orders Rollback` microservice that participates in 
 1. Clone the repo.
 
 ```bash
-git clone ${GIT_URL}/eks-saga-orders-rb
+git clone ${GIT_URL}/amazon-eks-saga-orchestration-orders-rb
 ```
 
 > Skip this step, if instructions to build images were followed in the `eks-saga-aws` repository. Else, follow the steps below to build and push the image to Amazon ECR.
@@ -23,7 +24,7 @@ git clone ${GIT_URL}/eks-saga-orders-rb
 2. Build the Docker image and push to Docker repository.
 
 ```bash
-cd eks-saga-orders-rb/src
+cd amazon-eks-saga-orchestration-orders-rb/src
 
 aws ecr get-login-password --region ${REGION_ID} | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${REGION_ID}.amazonaws.com
 IMAGE_URI=${ACCOUNT_ID}.dkr.ecr.${REGION_ID}.amazonaws.com/eks-saga/ordersrb
@@ -35,7 +36,7 @@ docker build -t ${IMAGE_URI}:0.0.0 . && docker push ${IMAGE_URI}:0.0.0
 1. Create `ConfigMap` running the command below from the `yaml` folder. Change `Asia/Kolkata` to appropriate timezone value in the `sed` command below. Then, run the following commands to create the `ConfigMap`.
 
 ```bash
-cd eks-saga-orders-rb/yaml
+cd amazon-eks-saga-orchestration-rb/yaml
 RDS_DB_ID=eks-saga-db
 DB_ENDPOINT=`aws rds describe-db-instances --db-instance-identifier ${RDS_DB_ID} --query 'DBInstances[0].Endpoint.Address' --output text`
 sed -e 's#timeZone#Asia/Kolkata#g' \
